@@ -1,1 +1,20 @@
 16715912202172686704
+
+12417642839726685263
+
+2034182089584259359
+
+untuk pencarian pake 2 opsi
+1. private -> mahasiswa login liat langsung
+2. public -> liatnya pake qr code / transaction id
+ntar di jelasin kenapa pilih itu!!
+
+tambahin fitur logging aktivitas website
+
+tampilan benerin!
+
+cari penjelasan PoS nya ethereum -> cara kerjanya
+baru ke bawah
+cari penjelasan DPoS, knp dia nge produce block terus? -> di mana delegated nya?
+
+11590819624335748149

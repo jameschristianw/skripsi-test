@@ -1,92 +1,121 @@
-import React from "react";
+import React, { Component } from "react";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
 } from "react-router-dom";
-import NewAccount from './NewAccount';
-import Accounts from './Accounts';
-import HelloAccounts from './HelloAccounts';
-import Faucet from './Faucet';
-import SendTransfer from './Transfer';
 import SendHello from './Hello';
-import Transactions from './Transactions';
 import HelloTransactions from './HelloTransactions';
-import Blocks from './Blocks';
 import HelloTransactions2 from './HelloTransactions2';
+import Login from './Login';
+import '../App.css';
+import '../index.css';
+import Logo from '../images/logo-100.png';
+// import log from 'loglevel';
+// import remote from 'loglevel-plugin-remote';
+import { ErrorHandler } from 'universal-react-logger';
 
 // The pages of this site are rendered dynamically
 // in the browser (not server rendered).
 
-export default function App() {
-    return (
-        <Router>
-            <div>
-                <h3> Portal Ijazah UMN </h3>
-                <ul>
-                    <ul><Link to="/send-hello">Input Ijazah</Link></ul>                  
-                    {/* <ul><Link to="/hello-transactions">Semua Ijazah</Link></ul> */}
-		    <ul><Link to="/hello-transactions2">Cari Ijazah</Link></ul>
-                </ul>
+class App extends Component{
 
-                <hr />
+    constructor(props){
+        super(props);
+        this.state = {
+            counter: 0,
+            error: this.props.error,
+            errorInfo: this.props.errorInfo
+        };
+        this.handleClick = this.handleClick.bind(this);
+        this.makeError = this.makeError.bind(this);
+    }
 
-                {/*
-                  A <Switch> looks through all its children <Route>
-                  elements and renders the first one whose path
-                  matches the current URL. Use a <Switch> any time
-                  you have multiple routes, but you want only one
-                  of them to render at a time
-                */}
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/new-account">
-                        <NewAccount />
-                    </Route>
-                    <Route path="/faucet">
-                        <Faucet />
-                    </Route>
-                    <Route path="/send-transfer">
-                        <SendTransfer />
-                    </Route>
-                    <Route path="/send-hello">
-                        <SendHello />
-                    </Route>
-                    <Route path="/accounts">
-                        <Accounts />
-                    </Route>
-                    <Route path="/hello-accounts">
-                        <HelloAccounts />
-                    </Route>
-                    <Route path="/blocks">
-                        <Blocks />
-                    </Route>
-                    <Route path="/transactions">
-                        <Transactions />
-                    </Route>
-                    <Route path="/hello-transactions">
-                        <HelloTransactions />
-                    </Route>
-                    <Route path="/hello-transactions2">
-                        <HelloTransactions2 />
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
-    );
-   
+    handleClick(){
+        this.setState(({counter}) => ({
+            counter: counter + 1
+        }))
+    }
+
+    makeError(){
+        try{
+            console.log("This is some error");
+        } catch (error){
+            this.props.setEventError(error);
+        }
+    }
+
+    componentDidMount(info){
+        // console.log(info)
+
+        // fetch('/log', {
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     method: "POST",
+        //     body: JSON.stringify({ message: 'Homepage is opened'})
+        // })
+    }
+
+    render(){
+        return (
+            <Router>
+                <div>
+                    <div className="title">
+                        <h2><img src={Logo} className="img-logo"/><Link to="/">Portal Ijazah Elektronik UMN</Link></h2>
+                        
+                        <div className="sub-title">
+                            <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                 
+                            {/* <ul><Link to="/semua-ijazah">Semua Ijazah</Link></ul> */}
+                            <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
+                            <Link to="/login" className="sub-content">Login</Link>
+                        </div>
+                    </div>
+                    
+                        
+                    {/* <hr /> */}
+    
+                    {/*
+                      A <Switch> looks through all its children <Route>
+                      elements and renders the first one whose path
+                      matches the current URL. Use a <Switch> any time
+                      you have multiple routes, but you want only one
+                      of them to render at a time
+                    */}
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route path="/input-ijazah">
+                            <SendHello />
+                        </Route>
+                        <Route path="/semua-ijazah">
+                            <HelloTransactions />
+                        </Route>
+                        <Route path="/cari-ijazah">
+                            <HelloTransactions2 />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                    </Switch>
+                </div>
+            </Router>
+        );
+    }
 }
+
+export default ErrorHandler(App, true);
 
 /* Functional components */
 
 function Home() {
     return (
-        <div>
-            <h2>Hello Lisk!</h2>
-            <p>A simple frontend for blockchain applications built with the Lisk SDK.</p>
+        <div className="content">
+            <h3>Selamat datang di Portal Ijazah Elektronik UMN</h3>
+            <p>Portal ini digunakan untuk membuat ijazah yang di keluarkan Universitas Multimedia Nusantara di dalam blockchain dan memungkinkan alumni melihat atau mengambil ijazah jika dibutuhkan</p>
         </div>
     );
 }
