@@ -12,9 +12,11 @@ import Login from './Login';
 import '../App.css';
 import '../index.css';
 import Logo from '../images/logo-100.png';
+import { useHistory } from 'react-router-dom'
 // import log from 'loglevel';
 // import remote from 'loglevel-plugin-remote';
 import { ErrorHandler } from 'universal-react-logger';
+import Cookies from "universal-cookie";
 
 // The pages of this site are rendered dynamically
 // in the browser (not server rendered).
@@ -26,7 +28,8 @@ class App extends Component{
         this.state = {
             counter: 0,
             error: this.props.error,
-            errorInfo: this.props.errorInfo
+            errorInfo: this.props.errorInfo,
+            loggedIn: false
         };
         this.handleClick = this.handleClick.bind(this);
         this.makeError = this.makeError.bind(this);
@@ -46,32 +49,81 @@ class App extends Component{
         }
     }
 
-    componentDidMount(info){
+    componentWillMount(info){
         // console.log(info)
+        var temp = new Cookies();
+        var cookie = temp.get('SID');
+        var res = "";
 
-        // fetch('/log', {
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     method: "POST",
-        //     body: JSON.stringify({ message: 'Homepage is opened'})
-        // })
+        console.log(cookie);
+        if (cookie !== undefined){
+            res = atob(cookie);
+            res = res.slice(0, res.indexOf('#'));
+            console.log(res);
+
+            var mes = {
+                email: res
+            }
+
+            // console.log(JSON.stringify(mes));
+
+            fetch('/validate-email', {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(mes)
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.length !== 0){
+                    this.setState({loggedIn: true});
+                }
+                // console.log(this.state);
+            }).finally(() => {
+                // this.shouldComponentUpdate(1);
+                
+                // console.log(this.state);
+            })
+        }
     }
 
     render(){
+        var state = this.state;
+        console.log('app render');
+
+        var LoggedIn = () => {
+            if (!state.loggedIn) {
+                return (
+                    <div className="sub-title">
+                        {/* <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                  */}
+                        {/* <ul><Link to="/semua-ijazah">Semua Ijazah</Link></ul> */}
+                        <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
+                        <Link to="/login" className="sub-content">Login</Link>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="sub-title">
+                        <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                 
+                        <Link to="/semua-ijazah" className="sub-content">Semua Ijazah</Link>
+                        <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
+                        <Link to="/login" className="sub-content">Logout</Link>
+                    </div>
+                )
+            }
+        }
+
         return (
             <Router>
                 <div>
                     <div className="title">
                         <h2><img src={Logo} className="img-logo"/><Link to="/">Portal Ijazah Elektronik UMN</Link></h2>
-                        
-                        <div className="sub-title">
+                        <LoggedIn />
+                        {/* <div className="sub-title">
                             <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                 
-                            {/* <ul><Link to="/semua-ijazah">Semua Ijazah</Link></ul> */}
+                            <ul><Link to="/semua-ijazah">Semua Ijazah</Link></ul>
                             <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
                             <Link to="/login" className="sub-content">Login</Link>
-                        </div>
+                        </div> */}
                     </div>
                     
                         
