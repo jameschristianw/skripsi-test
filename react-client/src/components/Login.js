@@ -12,7 +12,10 @@ class Login extends Component {
             email: '',
             password: '',
             exist: true,
-            loggedIn: false
+            loggedIn: false,
+            error: false,
+            name: '',
+            role: '',
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -57,8 +60,9 @@ class Login extends Component {
             })
             .then(res => res.json())
             .then(result => {
+                // console.log(result)
                 if (result.length !== 0){
-                    this.setState({loggedIn: true});
+                    this.setState({loggedIn: true, name: result[0].fullname, role: result[0].role, email: result[0].email});
                 }
                 // console.log(this.state);
             }).finally(() => {
@@ -116,6 +120,7 @@ class Login extends Component {
             if (result.length === 0) {
                 // console.log('kosong')
                 this.setState({exist: false});
+                this.setState({error: true});
             } else {
                 // console.log('yeay bisa masuk')
                 // console.log(result);
@@ -192,16 +197,18 @@ class Login extends Component {
                 // console.log("endDate: " + endDate);
                 // console.log(result[0].email, result[0].id);
 
-                var cookie = result[0].email + "#" + result[0].id + "#" + endDate;
+                var cookie = result[0].email + "#" + result[0].role + "&" + endDate;
 
                 const cookies = new Cookies();
                 const encodedCookie = new Buffer(cookie).toString('base64');
                 cookies.set('SID', encodedCookie, {path: '/'});
                 console.log(cookies.get('SID'));
+                this.setState({name: result[0].name})
             }
         })
-        .finally( () => {
-            this.setState({exist: true, loggedIn: true})
+        .finally( (res) => {
+            // console.log(res)
+            this.setState({exist: true, loggedIn: true,})
             window.location.reload();
         })
         // .then( () => {
@@ -224,6 +231,15 @@ class Login extends Component {
 
     render(){
         var state = this.state;
+        console.log(state);
+        
+        var ErrorLogIn = () => {
+            if (state.error) {
+                return (
+                    <div>Masukkan email dan password yang sesuai</div>
+                )
+            } else return null;
+        }
 
         var Layout = () => {
             // console.log(state)
@@ -246,16 +262,20 @@ class Login extends Component {
                                 Masukkan ID Ijazah:
                                 <input type="text" id="idIjazah" name="idIjazah" onChange={this.handleChange}/>
                             </label> */}
+
                             <input type="submit" value="Submit" />
+                            
+                            <ErrorLogIn />
                         </form>
                     </div>
                 )
             } else {
                 return (
                     <div>
-                        <div className="form-style-2-heading">You are currently logged in. Click the button below to logout.</div>
+                        <div className="form-style-2-heading">Hai {state.name}, Saat ini anda sedang masuk di Portal Ijazah UMN. Tekan tombol dibawah untuk keluar.</div>
                         {/* <h2>Cari Ijazah</h2> */}
                         <button onClick={this.logout}>Logout</button>
+                    
                     </div>
                 )
             }

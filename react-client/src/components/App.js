@@ -5,9 +5,9 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import SendHello from './Hello';
-import HelloTransactions from './HelloTransactions';
-import HelloTransactions2 from './HelloTransactions2';
+import SendHello from './InputIjazah';
+import HelloTransactions from './SemuaIjazah';
+import HelloTransactions2 from './CariIjazah';
 import Login from './Login';
 import '../App.css';
 import '../index.css';
@@ -29,7 +29,8 @@ class App extends Component{
             counter: 0,
             error: this.props.error,
             errorInfo: this.props.errorInfo,
-            loggedIn: false
+            loggedIn: false,
+            role: ''
         };
         this.handleClick = this.handleClick.bind(this);
         this.makeError = this.makeError.bind(this);
@@ -55,14 +56,17 @@ class App extends Component{
         var cookie = temp.get('SID');
         var res = "";
 
-        console.log(cookie);
+        // console.log(cookie);
         if (cookie !== undefined){
             res = atob(cookie);
-            res = res.slice(0, res.indexOf('#'));
-            console.log(res);
+            // console.log(res)
+            // console.log(res.indexOf('#'), res.indexOf('&'));
+            var mail = res.slice(0, res.indexOf('#'));
+            var role = res.slice(res.indexOf('#')+1, res.indexOf('&'));
+            // console.log(res);
 
             var mes = {
-                email: res
+                email: mail
             }
 
             // console.log(JSON.stringify(mes));
@@ -76,7 +80,9 @@ class App extends Component{
             .then(result => {
                 if (result.length !== 0){
                     this.setState({loggedIn: true});
+                    this.setState({role: role})
                 }
+                console.log(result)
                 // console.log(this.state);
             }).finally(() => {
                 // this.shouldComponentUpdate(1);
@@ -88,7 +94,7 @@ class App extends Component{
 
     render(){
         var state = this.state;
-        console.log('app render');
+        // console.log('app render');
 
         var LoggedIn = () => {
             if (!state.loggedIn) {
@@ -101,14 +107,23 @@ class App extends Component{
                     </div>
                 )
             } else {
-                return (
-                    <div className="sub-title">
-                        <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                 
-                        <Link to="/semua-ijazah" className="sub-content">Semua Ijazah</Link>
-                        <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
-                        <Link to="/login" className="sub-content">Logout</Link>
-                    </div>
-                )
+                if (state.role === "student"){
+                    return (
+                        <div className="sub-title">
+                            <Link to="/" className="sub-content">Ijazahku</Link>  
+                            <Link to="/login" className="sub-content">Logout</Link>
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div className="sub-title">
+                            <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                 
+                            <Link to="/semua-ijazah" className="sub-content">Semua Ijazah</Link>
+                            <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
+                            <Link to="/login" className="sub-content">Logout</Link>
+                        </div>
+                    )
+                }
             }
         }
 
