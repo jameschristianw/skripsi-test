@@ -1,5 +1,6 @@
 const { Application, genesisBlockDevnet, configDevnet } = require('lisk-sdk'); 
-const HelloTransaction = require('./transactions/hello_transaction');
+const TransaksiIjazah = require('./transactions/transaksi_ijazah');
+const ValiditasIjazah = require('./transactions/validitas_ijazah');
 
 configDevnet.app.label = 'test-blockchain-app'; 
 //configDevnet.components.storage.user = '<username>'; 
@@ -12,7 +13,8 @@ configDevnet.modules.http_api.address = "192.168.0.7"
 configDevnet.modules.http_api.access.public = true;
 
 const app = new Application(genesisBlockDevnet, configDevnet); 
-app.registerTransaction(HelloTransaction); 
+app.registerTransaction(TransaksiIjazah); 
+app.registerTransaction(ValiditasIjazah);
 
 app 
     .run()

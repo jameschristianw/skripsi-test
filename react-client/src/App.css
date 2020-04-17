@@ -120,9 +120,12 @@ a, a:hover{
 	text-align: center;
 }
 .form-style-2 input.input-field, .form-style-2 .select-field{
-	width: 60%;	
+	width: 40%;	
 }
-.form-style-2 input.input-field, 
+.form-style-2 input.input-field-2{
+	width: 20%;	
+}
+.form-style-2 input.input-field, .form-style-2 input.input-field-2, 
 .form-style-2 .tel-number-field, 
 .form-style-2 .textarea-field, 
  .form-style-2 .select-field{
@@ -166,4 +169,7 @@ a, a:hover{
 .form-style-2 input[type=button]:hover{
 	background: #003e78;
 	color: #fff;
+}
+.form-style-2 input.input-field {
+	margin-right: 10px;;
 }

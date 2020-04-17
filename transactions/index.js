@@ -1,5 +1,7 @@
-const HelloTransaction = require('./hello_transaction');
+const TransaksiIjazah = require('./transaksi_ijazah');
+const ValiditasIjazah = require('./validitas_ijazah');
 
 module.exports = {
-    HelloTransaction,
+    TransaksiIjazah,
+    ValiditasIjazah
 };

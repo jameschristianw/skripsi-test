@@ -17,6 +17,7 @@ import { useHistory } from 'react-router-dom'
 // import remote from 'loglevel-plugin-remote';
 import { ErrorHandler } from 'universal-react-logger';
 import Cookies from "universal-cookie";
+import Ijazahku from "./Ijazahku";
 
 // The pages of this site are rendered dynamically
 // in the browser (not server rendered).
@@ -56,7 +57,7 @@ class App extends Component{
         var cookie = temp.get('SID');
         var res = "";
 
-        // console.log(cookie);
+        console.log(cookie);
         if (cookie !== undefined){
             res = atob(cookie);
             // console.log(res)
@@ -110,7 +111,8 @@ class App extends Component{
                 if (state.role === "student"){
                     return (
                         <div className="sub-title">
-                            <Link to="/" className="sub-content">Ijazahku</Link>  
+                            <Link to="/ijazahku" className="sub-content">Ijazahku</Link>  
+                            <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
                             <Link to="/login" className="sub-content">Logout</Link>
                         </div>
                     )
@@ -163,6 +165,9 @@ class App extends Component{
                         </Route>
                         <Route path="/cari-ijazah">
                             <HelloTransactions2 />
+                        </Route>
+                        <Route path="/ijazahku">
+                            <Ijazahku />
                         </Route>
                         <Route path="/login">
                             <Login />

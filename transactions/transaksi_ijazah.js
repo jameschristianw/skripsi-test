@@ -3,7 +3,7 @@ const {
     TransactionError
 } = require('@liskhq/lisk-transactions');
 
-class HelloTransaction extends BaseTransaction {
+class TransaksiIjazah extends BaseTransaction {
 
     /**
     * Set the `HelloTransaction` transaction TYPE to `10`.
