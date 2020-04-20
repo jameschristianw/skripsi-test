@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {
-    HelloTransaction,
+    TransaksiIjazah,
 } from 'lisk-hello-transactions';
 import { api } from '../api.js';
 import * as cryptography from '@liskhq/lisk-cryptography';
 import {utils} from "@liskhq/lisk-transactions";
 import Select from 'react-select';
 import FileBase64 from 'react-file-base64';
+import md5 from 'md5';
 
 const networkIdentifier = cryptography.getNetworkIdentifier(
     "23ce0366ef0a14a91e5fd4b1591fc880ffbef9d988ff8bebf8f3666b0c09597d",
@@ -20,14 +21,22 @@ class Transfer extends Component {
 
         this.state = {
             nama: '',
-	        nim: '',
+            tempattl: '',
+            ttl: '',
+            nim: '',
+            jenjang: '',
+            fakultas: '',
 	        prodi: '',
             gelar: '',
             niu: '',
             pin: '',
+            tin: '',
             email: '',
-            passphrase: '',
             photo: '',
+            tempattd: '',
+            ttd: '',
+            passphrase: '',
+            status: 'Active',
             response: { meta: { status: false }},
             transaction: {},
             isSent: false
@@ -96,33 +105,62 @@ class Transfer extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        const helloTransaction = new HelloTransaction({
+        const inputIjazah = new TransaksiIjazah({
             asset: {
-                hello: this.state.hello,
                 nama: this.state.nama,
+                tempattl: this.state.tempattl,
+                ttl: this.state.ttl,
                 nim: this.state.nim,
+                jenjang: this.state.jenjang,
+                fakultas: this.state.fakultas,
                 prodi: this.state.prodi,
                 gelar: this.state.gelar,
                 niu: this.state.niu,
                 pin: this.state.pin,
+                tin: this.state.tin,
                 email: this.state.email,
+                photo: this.state.photo,
+                tempattd: this.state.tempattd,
+                ttd: this.state.ttd,
+                status: 'Active'
             },
             networkIdentifier: networkIdentifier,
             timestamp: utils.getTimeFromBlockchainEpoch(new Date()),
         });
 
-        helloTransaction.sign(this.state.passphrase);
-        api.transactions.broadcast(helloTransaction.toJSON()).then(response => {
+        console.log(inputIjazah)
+
+        inputIjazah.sign(this.state.passphrase);
+        api.transactions.broadcast(inputIjazah.toJSON()).then(response => {
             this.setState({response:response});
-            this.setState({transaction:helloTransaction});
+            this.setState({transaction:inputIjazah});
             this.setState({isSent: true})
+
+            console.log(this.state.ttl);
+
+            var ttl = this.state.ttl.replace('-', '').replace('-', '');
+
+            console.log(ttl);
+
+            var values = {
+                name: this.state.nama,
+                email: this.state.email,
+                password: md5(ttl),
+                ijazah: this.state.transaction.id
+            }
+
+            fetch('/create-account', {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(values)
+            }). then(response => {
+                console.log(response)
+            })
         }).catch(err => {
             console.log(JSON.stringify(err, null, 2));
         });
-        // this.setState({isSent: true})
     }
 
-    //<pre>Transaction: {JSON.stringify(this.state.transaction, null, 2)}</pre>
 
     render() {
         const isSentState = this.state.isSent;
@@ -153,9 +191,34 @@ class Transfer extends Component {
                         <input type="text" id="nama" name="nama" className="input-field" onChange={this.handleChange} />
                     </label> <br/>
                     <label>
+                        <span>Tempat dan Tanggal Lahir: <span className="required">*</span></span>
+                        <input type="tempattl" id="tempattl" name="tempattl" className="input-field-2" onChange={this.handleChange} /><input type="date" id="ttl" name="ttl" className="input-field-2" onChange={this.handleChange} />
+                    </label> <br/>
+                    <label>
                         <span>Nomor Induk Mahasiswa: <span className="required">*</span></span>
                         
                         <input type="number" id="nim" name="nim" className="input-field" onChange={this.handleChange} />
+                    </label> <br/>
+                    <label>
+                        <span>Jenjang Pendidikan: <span className="required">*</span></span>
+                        
+                        <select className="select-field" name="jenjang" id="jenjang" onChange={this.handleChange}>
+                            <option value="-">-- Pilih Fakultas --</option>
+                            <option value="sarjanas1">Sarjana Strata 1</option>
+                            <option value="diploma3">Diploma 3</option>
+                        </select>
+                    </label> <br/>
+                    <label>
+                        <span>Fakultas: <span className="required">*</span></span>
+                        
+                        <select className="select-field" name="fakultas" id="fakultas" onChange={this.handleChange}>
+                            <option value="-">-- Pilih Fakultas --</option>
+                            <option value="fti">Fakultas Teknik & Informatika</option>
+                            <option value="fbisnis">Fakultas Bisnis</option>
+                            <option value="filkom">Fakultas Ilmu Komunikasi</option>
+                            <option value="fsds">Fakultas Seni & Design</option>
+                            <option value="perhotelan">D3 Perhotelan</option>
+                        </select>
                     </label> <br/>
                     <label>
                         <span>Program Studi: <span className="required">*</span></span>
@@ -206,6 +269,11 @@ class Transfer extends Component {
                         <input type="text" id="pin" name="pin" className="input-field" onChange={this.handleChange} />
                     </label> <br/>
                     <label>
+                        <span>Tanggal Ijazah Nasional: <span className="required">*</span></span>
+                        
+                        <input type="date" id="tin" name="tin" className="input-field" onChange={this.handleChange} />
+                    </label> <br/>
+                    <label>
                         <span>Email: <span className="required">*</span></span>
                         
                         <input type="text" id="email" name="email" className="input-field" onChange={this.handleChange} />
@@ -214,6 +282,10 @@ class Transfer extends Component {
                         <span>Photo: <span className="required">*</span></span>
                         <FileBase64 multiple={ true } onDone={ this.getFiles.bind(this) } />
                         {/* <input type="text" id="email" name="email" className="input-field" onChange={this.handleChange} /> */}
+                    </label> <br/>
+                    <label>
+                        <span>Tempat dan Tanggal Diberikan: <span className="required">*</span></span>
+                        <input type="text" id="tempattd" name="tempattd" className="input-field-2" onChange={this.handleChange} /><input type="date" id="ttd" name="ttd" className="input-field-2" onChange={this.handleChange} />
                     </label> <br/>
                     <label>
                         <span>Passphrase: <span className="required">*</span></span>

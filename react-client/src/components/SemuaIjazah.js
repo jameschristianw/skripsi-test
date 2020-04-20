@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { api } from '../api.js';
 //import HelloTransaction from '../transactions/hello_transaction';
 import {
-    HelloTransaction,
+    TransaksiIjazah,
 } from 'lisk-hello-transactions';
 
 class HelloTransactions extends Component {
@@ -14,7 +14,7 @@ class HelloTransactions extends Component {
     }
 
     async componentDidMount() {
-        const transactions  = await api.transactions.get({ type: HelloTransaction.TYPE, limit: 100 });
+        const transactions  = await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100 });
 
         this.setState({ data: transactions });
     }
