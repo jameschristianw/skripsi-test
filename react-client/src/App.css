@@ -120,7 +120,10 @@ a, a:hover{
 	text-align: center;
 }
 .form-style-2 input.input-field, .form-style-2 .select-field{
-	width: 60%;	
+	width: 40%;	
+}
+.form-style-2 input.input-field-2{
+	width: 20%;	
 }
 .form-style-2 input.input-field, 
 .form-style-2 .tel-number-field, 

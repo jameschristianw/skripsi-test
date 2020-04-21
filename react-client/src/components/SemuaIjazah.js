@@ -4,6 +4,7 @@ import { api } from '../api.js';
 import {
     TransaksiIjazah,
 } from 'lisk-hello-transactions';
+import ResponseSearch from './ResponSearch'
 
 class HelloTransactions extends Component {
 
@@ -14,31 +15,46 @@ class HelloTransactions extends Component {
     }
 
     async componentDidMount() {
-        const transactions  = await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100 });
+        await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100, sort:'timestamp:desc' })
+            .then(response => {
+                this.setState({ data: response });
 
-        this.setState({ data: transactions });
+                var datas = response.data;
+                // console.log(datas);
+
+                var temp = []
+
+                temp = datas.map(val => {
+                    // console.log(val)
+
+                    var t = {
+                        nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
+                        nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
+                        pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
+                        id: val.id !== undefined ? val.id : 'Nan',
+                        niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
+                        status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
+                        photos: ''
+                    }
+
+                    return t;
+                })
+
+                this.setState({data: {
+                    values: temp,
+                    source: 'SemuaIjazah'
+                }})
+            })
     }
 
     render() {
         return (
             <div className="content form-style-2">
                 <div className="form-style-2-heading">Semua Ijazah</div>
-                <ul><pre>{JSON.stringify(this.state.data, null, 2)}</pre></ul>
+                {/* <ul><pre>{JSON.stringify(this.state.data, null, 2)}</pre></ul> */}
                 {/* <h2>Cari Ijazah</h2> */}
-                {/* <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <span>Masukkan ID Ijazah: <span className="required">*</span></span>
-                        <input type="number" id="idIjazah" name="idIjazah" className="input-field" onChange={this.handleChange} />
-                    </label> <br/> */}
-
-                    {/* <label>
-                        Masukkan ID Ijazah:
-                        <input type="text" id="idIjazah" name="idIjazah" onChange={this.handleChange}/>
-                    </label> */}
-                    {/* <input type="submit" value="Submit" />
-                </form>
                 
-                <Response sumbitted={this.state}/> */}
+                <ResponseSearch submitted={this.state.data}/>
             </div>
             // <div>
             //     <h2>All Hello Transactions</h2>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { api } from '../api.js';
+import ResponSearch from './ResponSearch'
 //import HelloTransaction from '../transactions/hello_transaction';
 // import {
 //     HelloTransaction,
@@ -14,7 +15,8 @@ class HelloTransactions extends Component {
             available: false,
             sumbitted: false,
             idIjazah: '',
-            data: [] 
+            data: [] ,
+            values: []
         };
     }
 
@@ -27,11 +29,46 @@ class HelloTransactions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({sumbitted: true})
-        console.log(event.target.name);
-        console.log(event.target.value);
-        api.transactions.get({ id: this.state.idIjazah }).then( response => { this.setState({data: response}); console.log(response) });
-        if (event.target.value !== undefined){
-            api.transactions.get({ id: this.state.idIjazah }).then( response => { this.setState({data: response}); console.log(response) });
+        // api.transactions.get({ id: this.state.idIjazah }).then( response => { this.setState({data: response}); console.log(response) });
+        if (this.state.idIjazah !== ""){
+            api.transactions.get({ id: this.state.idIjazah })
+                .then( response => { 
+                    this.setState({values: response}); 
+                    console.log(response) 
+
+                    var datas = response.data;
+                    console.log(datas);
+                    var temp = ''
+
+                    if(response.meta.count > 0){
+                        temp = datas.map(val => {
+                            console.log(val)
+        
+                            var t = {
+                                nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
+                                nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
+                                pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
+                                id: val.id !== undefined ? val.id : 'Nan',
+                                niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
+                                status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
+                                photo: val.asset.photo !== undefined ? val.asset.photo : 'default',
+                                source: 'CariIjazah'
+                            }
+        
+                            return t;
+                        })   
+                        
+                        this.setState({data: {
+                            values: temp,
+                            source: 'CariIjazah',
+                        }})
+
+                        // console.log(this.state.values);
+                    }
+
+                })
+        } else {
+            console.log("Kosong")
         }
     }
 
@@ -93,7 +130,7 @@ class HelloTransactions extends Component {
                     <input type="submit" value="Submit" />
                 </form>
                 
-                <Response sumbitted={this.state}/>
+                <ResponSearch submitted={this.state.data}/>
             </div>
         );
     }
