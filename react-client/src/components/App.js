@@ -114,8 +114,9 @@ class App extends Component{
                 if (state.role === "student"){
                     return (
                         <div className="sub-title">
-                            <Link to="/ijazahku" className="sub-content">Ijazahku</Link>  
-                            <Link to="/login" className="sub-content">Logout</Link>
+                            <Link to="/ijazahku" className="sub-content">Ijazahku</Link>
+                            <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>  
+                            <Link to="/login" className="sub-content">Profil</Link>
                         </div>
                     )
                 } else {
@@ -124,7 +125,7 @@ class App extends Component{
                             <Link to="/input-ijazah" className="sub-content">Input Ijazah</Link>                 
                             <Link to="/semua-ijazah" className="sub-content">Semua Ijazah</Link>
                             <Link to="/cari-ijazah" className="sub-content">Cari Ijazah</Link>
-                            <Link to="/login" className="sub-content">Logout</Link>
+                            <Link to="/login" className="sub-content">Profil</Link>
                         </div>
                     )
                 }

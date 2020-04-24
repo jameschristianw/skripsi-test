@@ -113,7 +113,7 @@ class IjazahKu extends Component{
 
             return(
                 <div className="content form-style-2">
-                    <div className="form-style-2-heading">IjazahKu</div>
+                    <div className="form-style-2-heading">Ijazahku</div>
     
                     <table cellPadding="10">
                         <tbody>

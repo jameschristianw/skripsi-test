@@ -260,10 +260,6 @@ class Login extends Component {
                                 <span>Password: <span className="required">*</span></span>
                                 <input type="password" id="password" name="password" className="input-field" onChange={this.handleChange} />
                             </label> <br/>
-                            {/* <label>
-                                Masukkan ID Ijazah:
-                                <input type="text" id="idIjazah" name="idIjazah" onChange={this.handleChange}/>
-                            </label> */}
 
                             <input type="submit" value="Submit" />
                             
@@ -274,7 +270,8 @@ class Login extends Component {
             } else {
                 return (
                     <div>
-                        <div className="form-style-2-heading">Hai {state.name}, Saat ini anda sedang masuk di Portal Ijazah UMN. Tekan tombol dibawah untuk keluar.</div>
+                        <div className="form-style-2-heading">Hai {state.name}!</div>
+                        <p>Saat ini anda sedang masuk di Portal Ijazah UMN. Tekan tombol dibawah untuk keluar.</p>
                         {/* <h2>Cari Ijazah</h2> */}
                         <button onClick={this.logout}>Logout</button>
                     
@@ -286,27 +283,6 @@ class Login extends Component {
         return (
             <div className="content form-style-2">
                 <Layout loggedIn={this.state.loggedIn} />
-                
-                {/* <div>
-                    <div className="form-style-2-heading">Login</div> */}
-                    {/* <h2>Cari Ijazah</h2> */}
-                    {/* <form onSubmit={this.handleSubmit}>
-                        <label>
-                            <span>Email: <span className="required">*</span></span>
-                            <input type="text" id="email" name="email" className="input-field" onChange={this.handleChange} />
-                        </label> <br/>
-
-                        <label>
-                            <span>Password: <span className="required">*</span></span>
-                            <input type="password" id="password" name="password" className="input-field" onChange={this.handleChange} />
-                        </label> <br/> */}
-                        {/* <label>
-                            Masukkan ID Ijazah:
-                            <input type="text" id="idIjazah" name="idIjazah" onChange={this.handleChange}/>
-                        </label> */}
-                        {/* <input type="submit" value="Submit" />
-                    </form>
-                </div> */}
             </div>
         )
     }
