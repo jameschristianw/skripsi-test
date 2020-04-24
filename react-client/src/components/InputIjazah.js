@@ -68,13 +68,13 @@ class Transfer extends Component {
     ]
 
     handleChange = (event) => {
-        console.log(event)
+        // console.log(event)
 
         let nam = event.target.name;
         let val = event.target.value;
         this.setState({[nam]: val});
 
-	    console.log(this.state);
+	    // console.log(this.state);
         // let helloText = event.target.hello;
         // let pass = event.target.passphrase;
 
@@ -85,13 +85,13 @@ class Transfer extends Component {
     };
 
     handleSelectChange = (event, meta) =>{
-        console.log(event, meta);
+        // console.log(event, meta);
 
         let nam = meta.name;
         let val = event.value;
         this.setState({[nam]: val});
 
-	    console.log(this.state);
+	    // console.log(this.state);
     }
 
     getFiles(files){
@@ -128,7 +128,7 @@ class Transfer extends Component {
             timestamp: utils.getTimeFromBlockchainEpoch(new Date()),
         });
 
-        console.log(inputIjazah)
+        // console.log(inputIjazah)
 
         inputIjazah.sign(this.state.passphrase);
         api.transactions.broadcast(inputIjazah.toJSON()).then(response => {
@@ -136,11 +136,11 @@ class Transfer extends Component {
             this.setState({transaction:inputIjazah});
             this.setState({isSent: true})
 
-            console.log(this.state.ttl);
+            // console.log(this.state.ttl);
 
             var ttl = this.state.ttl.replace('-', '').replace('-', '');
 
-            console.log(ttl);
+            // console.log(ttl);
 
             var values = {
                 name: this.state.nama,
@@ -157,7 +157,7 @@ class Transfer extends Component {
                 console.log(response)
             })
         }).catch(err => {
-            console.log(JSON.stringify(err, null, 2));
+            // console.log(JSON.stringify(err, null, 2));
         });
     }
 

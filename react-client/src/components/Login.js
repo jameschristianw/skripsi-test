@@ -202,7 +202,8 @@ class Login extends Component {
                 const cookies = new Cookies();
                 const encodedCookie = new Buffer(cookie).toString('base64');
                 cookies.set('SID', encodedCookie, {path: '/'});
-                console.log(cookies.get('SID'));
+                cookies.set('ijazahId', result[0].id_ijazah)
+                // console.log(cookies.get('SID'));
                 this.setState({name: result[0].name})
             }
         })
@@ -219,6 +220,7 @@ class Login extends Component {
     logout() {
         var cookie = new Cookies();
         cookie.remove('SID');
+        cookie.remove('ijazahId');
         window.location.reload();
     }
 
@@ -231,7 +233,7 @@ class Login extends Component {
 
     render(){
         var state = this.state;
-        console.log(state);
+        // console.log(state);
         
         var ErrorLogIn = () => {
             if (state.error) {

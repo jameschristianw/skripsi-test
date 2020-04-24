@@ -112,7 +112,7 @@ class Response extends Component {
     render() {
         // console.log(this.props.submitted)
         var data = this.props.submitted;
-        console.log(data);
+        // console.log(data);
         
         // if(data.length !== 0 ){
         //     console.log(data)

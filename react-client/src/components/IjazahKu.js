@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
 import { api } from '../api.js';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import Cookies from "universal-cookie";
 
 class IjazahKu extends Component{
     constructor(props){
+        // console.log("IjazahKu : constructor");
+        
         super(props)
         this.state = {
             idIjazah: this.props.idIjazah,
-            // idIjazah: '11071575473338022951',
             data: ''
         }
     }
 
     async componentWillMount() {
+        // console.log("IjazahKu : componentWillMount");
+        
+        
+        const cookies = new Cookies();
+        
         console.log(this.state);
-        api.transactions.get({ id: this.state.idIjazah })
+        api.transactions.get({ id: cookies.get('ijazahId') })
             .then(res => {
-                console.log(res.data[0].asset);
+                // console.log(res.data[0].asset);
                 this.setState({data: res.data[0].asset})
             })
     }
 
+    componentWillUnmount() {
+        // console.log("IjazahKu : componentDidMount");
+
+        this.setState({idIjazah: this.state.idIjazah});
+    }
+
     async componentDidMount() {
+        // console.log("IjazahKu : componentDidMount");
+        
         // api.transactions.get({ id: this.state.idIjazah })
         console.log(this.state)
     }
@@ -82,7 +91,9 @@ class IjazahKu extends Component{
     }
 
     render() {
-        console.log(this.state.data)
+        // console.log("IjazahKu : render");
+
+        // console.log(this.state.data)
 
         if (this.state.data !== ''){
             var data = this.state.data;
@@ -152,113 +163,7 @@ class IjazahKu extends Component{
                                 <td>: {data.tempattd}, {ttd}</td>
                             </tr>
                         </tbody>
-                    </table>
-
-                    {/* <div>
-                        <div className="row">
-                            <img src={data.photo} className="columnGambar"/>
-                            <div className="column">
-                                <label>
-                                    <span>Nama Mahasiswa</span>: {data.nama}
-                                </label> 
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Tempat dan Tanggal Lahir</span>
-                                    <span>: {data.tempattl}, {ttl}</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Nomor Induk Mahasiswa</span>
-                                    <span>: {data.nim}</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Jenjang Pendidikan</span>: {jenjang} / {gelar} ({data.gelar})
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Fakultas</span>: {fakultas}
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Program Studi</span>
-                                    <span>: {data.prodi}</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Nomor Ijazah UMN</span>
-                                    <span>: {data.niu}</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Penomoran Ijazah Nasional</span>: {data.pin}
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Tanggal Ijazah Nasional</span>
-                                    <span>: {tin}</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="columnGambar"></div>
-                            <div className="column">
-                                <label>
-                                    <span>Tempat dan Tanggal Diberikan</span> 
-                                    <span>: {data.tempattd}, {ttd}</span>
-                                </label>
-                            </div>
-                        </div> */}
-                        
-                        {/* <label>
-                            <span>Photo: a</span>
-                            <FileBase64 multiple={ true } onDone={ this.getFiles.bind(this) } />
-                            <input type="text" id="email" name="email" className="input-field" onChange={this.handleChange} />
-                        </label> <br/><br/> */}
-                        
-                    {/* </div> */}
-                    
+                    </table>                    
                 </div>
             )
         } else {

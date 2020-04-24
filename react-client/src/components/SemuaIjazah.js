@@ -16,13 +16,13 @@ class HelloTransactions extends Component {
     }
 
     componentWillUnmount() {
-        console.log('SemuaIjazah: on componentWillUnmount');
+        // console.log('SemuaIjazah: on componentWillUnmount');
         
         this.setState({done: false})
     }
 
     async componentDidMount() {
-        console.log('SemuaIjazah: on componentDidMount');
+        // console.log('SemuaIjazah: on componentDidMount');
 
         await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100, sort:'timestamp:desc' })
             .then(response => {
@@ -54,13 +54,13 @@ class HelloTransactions extends Component {
                     source: 'SemuaIjazah',
                 }, done: true})
 
-                console.log('SemuaIjazah: on the end of then');
+                // console.log('SemuaIjazah: on the end of then');
             })
-        console.log('SemuaIjazah: on the end of componentDidMount');
+        // console.log('SemuaIjazah: on the end of componentDidMount');
         
-        console.log(this.state)
+        // console.log(this.state)
         this.forceUpdate();
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     handleClick(event) {
@@ -111,10 +111,10 @@ class HelloTransactions extends Component {
     }
 
     render() {
-        console.log('SemuaIjazah: on render');;
+        // console.log('SemuaIjazah: on render');;
         
-        console.log('SemuaIjazah: ', this.state.done);
-        console.log('SemuaIjazah: ', this.state.values);
+        // console.log('SemuaIjazah: ', this.state.done);
+        // console.log('SemuaIjazah: ', this.state.values);
 
         if(!this.state.done) {
             return (
