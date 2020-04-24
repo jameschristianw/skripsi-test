@@ -8,6 +8,7 @@ import {
 import SendHello from './InputIjazah';
 import HelloTransactions from './SemuaIjazah';
 import HelloTransactions2 from './CariIjazah';
+import IjazahKu from "./IjazahKu";
 import Login from './Login';
 import '../App.css';
 import '../index.css';
@@ -30,7 +31,8 @@ class App extends Component{
             error: this.props.error,
             errorInfo: this.props.errorInfo,
             loggedIn: false,
-            role: ''
+            role: '',
+            idIjazah: '',
         };
         this.handleClick = this.handleClick.bind(this);
         this.makeError = this.makeError.bind(this);
@@ -80,9 +82,11 @@ class App extends Component{
             .then(result => {
                 if (result.length !== 0){
                     this.setState({loggedIn: true});
-                    this.setState({role: role})
+                    this.setState({role: role});
+                    this.setState({idIjazah: result[0].id_ijazah})
                 }
                 console.log(result)
+                console.log(result[0].id_ijazah)
                 // console.log(this.state);
             }).finally(() => {
                 // this.shouldComponentUpdate(1);
@@ -110,7 +114,7 @@ class App extends Component{
                 if (state.role === "student"){
                     return (
                         <div className="sub-title">
-                            <Link to="/" className="sub-content">Ijazahku</Link>  
+                            <Link to="/ijazahku" className="sub-content">Ijazahku</Link>  
                             <Link to="/login" className="sub-content">Logout</Link>
                         </div>
                     )
@@ -163,6 +167,9 @@ class App extends Component{
                         </Route>
                         <Route path="/cari-ijazah">
                             <HelloTransactions2 />
+                        </Route>
+                        <Route path="/ijazahku">
+                            <IjazahKu idIjazah={this.state.idIjazah}/>
                         </Route>
                         <Route path="/login">
                             <Login />

@@ -16,7 +16,9 @@ class HelloTransactions extends Component {
             sumbitted: false,
             idIjazah: '',
             data: [] ,
-            values: []
+            values: [],
+            done: false,
+            error: false
         };
     }
 
@@ -29,11 +31,21 @@ class HelloTransactions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({sumbitted: true})
+        console.log(this.state.idIjazah);
+        
         // api.transactions.get({ id: this.state.idIjazah }).then( response => { this.setState({data: response}); console.log(response) });
         if (this.state.idIjazah !== ""){
             api.transactions.get({ id: this.state.idIjazah })
                 .then( response => { 
-                    this.setState({values: response}); 
+                    
+                    console.log(response) 
+                    
+                    if(response.meta.count === 0){
+                        this.setState({values: false})
+                    } else {
+                        this.setState({values: response.data[0].asset}); 
+                    }
+
                     console.log(response) 
 
                     var datas = response.data;
@@ -61,7 +73,7 @@ class HelloTransactions extends Component {
                         this.setState({data: {
                             values: temp,
                             source: 'CariIjazah',
-                        }})
+                        }, done: true, available: true})
 
                         // console.log(this.state.values);
                     }
@@ -70,6 +82,10 @@ class HelloTransactions extends Component {
         } else {
             console.log("Kosong")
         }
+    }
+
+    componentWillUnmount() {
+        this.setState({done: false});
     }
 
     handleChange = (event) => {
@@ -89,6 +105,38 @@ class HelloTransactions extends Component {
     render() {
         const thisState = this.state;
 
+        if (this.state.idIjazah === undefined){
+            console.log('Data ijazah tidak ditemukan!');
+            // this.setState({sumbitted: false});
+            return (
+                <div className="response">Input tidak boleh kosong!</div>
+            )
+        } else if (this.state.submitted) { //klo di submit
+            if (this.state.available){ //klo ketemu 
+                console.log(this.state.values);
+                
+                return (
+                    <div></div>
+                )
+            } else { //klo ngga ketemu
+                if (!this.state.error) {
+                    console.log('Data ijazah tidak ditemukan!');
+                    // this.setState({sumbitted: false});
+                    return (
+                        <div className="response">Data ijazah tidak ditemukan!</div>
+                    )
+                } else {
+                    console.log('Data ijazah tidak ditemukan!');
+                    // this.setState({sumbitted: false});
+                    return (
+                        <div className="response">Data ijazah tidak ditemukan!</div>
+                    )
+                }
+            }
+        } else {
+
+        }
+
         function Response(props){
             // <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
 
@@ -96,11 +144,7 @@ class HelloTransactions extends Component {
                 const isAvailable = thisState.available;
 
                 if(thisState.data.length === 0){
-                    console.log('Data ijazah tidak ditemukan!');
-                    // this.setState({sumbitted: false});
-                    return (
-                        <div className="response">Data ijazah tidak ditemukan!</div>
-                    )
+                    
                 } else {
                     // this.setState({sumbitted: false});
                     return (
@@ -130,7 +174,7 @@ class HelloTransactions extends Component {
                     <input type="submit" value="Submit" />
                 </form>
                 
-                <ResponSearch submitted={this.state.data}/>
+                <ResponSearch submitted={this.state.values}/>
             </div>
         );
     }
