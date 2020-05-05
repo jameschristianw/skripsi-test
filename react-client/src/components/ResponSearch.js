@@ -110,16 +110,7 @@ class Response extends Component {
 
 
     render() {
-        // console.log(this.props.submitted)
         var data = this.props.submitted;
-        // console.log(data);
-        
-        // if(data.length !== 0 ){
-        //     console.log(data)
-        // }
-        // else {
-        //     console.log("kosong");
-        // }
 
         if (data.length !== 0 && data !== false){
             var data = this.props.submitted;
@@ -200,7 +191,6 @@ class Response extends Component {
         else {
             return null;
         }
-        // return null;
         
     }
 }

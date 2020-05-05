@@ -39,6 +39,11 @@
 
 /* Custom styling */
 
+@font-face{
+    fontFamily: 'AlegreyaSans-ExtraBold';
+    src: local('AlegreyaSans-ExtraBold'), url(./AlegreyaSans-ExtraBold.ttf) format('ttf');
+}
+
 /* Title */
 .title{
   text-align: center;

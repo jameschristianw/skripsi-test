@@ -1,70 +1,157 @@
 import React, { Component } from 'react';
 import { api } from '../api.js';
-//import HelloTransaction from '../transactions/hello_transaction';
 import {
     TransaksiIjazah,
 } from 'lisk-hello-transactions';
 import DataTable from 'react-data-table-component'
-import ResponseSearch from './ResponSearch'
+import { Page } from '@react-pdf/renderer';
 
 class HelloTransactions extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = { data: [], done: false };
+        this.state = { data: [], done: false, };
     }
 
     componentWillUnmount() {
-        // console.log('SemuaIjazah: on componentWillUnmount');
-        
         this.setState({done: false})
     }
 
+    getFakultasName = (fakultas) => {
+        let fakultasName = '';
+
+        if (fakultas === 'fti') fakultasName = "Fakultas Teknik & Informatika"
+        else if (fakultas === 'fbisnis') fakultasName = "Fakultas Bisnis"
+        else if (fakultas === 'filkom') fakultasName = "Fakultas Ilmu Komunikasi"
+        else if (fakultas === 'fsds') fakultasName = "Fakultas Seni & Design"
+        else if (fakultas === 'perhotelan') fakultasName = "D3 Perhotelan"
+
+        return fakultasName;
+    }
+
     async componentDidMount() {
-        // console.log('SemuaIjazah: on componentDidMount');
+        fetch('/get-cert').then(res => {
+            // console.log(res.json());
+            return res.json();
+        }).then(async (result) => {
+            console.log(result);
 
-        await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100, sort:'timestamp:desc' })
-            .then(response => {
-                this.setState({ data: response });
+            var temp = [];
 
-                var datas = response.data;
-                // console.log(datas);
+            console.log(result.length);
+            var counter = 0;
 
-                var temp = []
+            await result.forEach(async (element) => {
+                // console.log(element)
+                
+                await api.transactions.get({ id: element.id_ijazah })
+                .then( response => { 
+                    // if(response.meta.count === 0){
+                    //     this.setState({values: false})
+                    // } else {
+                    //     this.setState({values: response.data[0].asset}); 
+                    // }
 
-                temp = datas.map(val => {
-                    // console.log(val)
+                    console.log(response);
 
-                    var t = {
-                        nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
-                        nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
-                        pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
-                        id: val.id !== undefined ? val.id : 'Nan',
-                        niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
-                        status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
-                        photos: ''
+                    var val = response.data[0];
+                    
+                    console.log(temp)
+
+                    if(response.meta.count > 0){
+                        console.log(val)
+
+                        var tmp = {
+                            nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
+                            nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',        
+                            prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
+                            fakultas: val.asset.fakultas !== undefined ? this.getFakultasName(val.asset.fakultas) : 'Nan',
+                            pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
+                            id: val.id !== undefined ? val.id : 'Nan',
+                            niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
+                            status: element.status === 1 ? 'Active' : 'Not Active',
+                            photo: val.asset.photo !== undefined ? val.asset.photo : 'default',
+                        }
+
+                        temp.push(tmp);
                     }
-
-                    return t;
+                }).then( () => {
+                    console.log(this.state.data)
                 })
 
-                this.setState({data: {
-                    values: temp,
-                    source: 'SemuaIjazah',
-                }, done: true})
-
-                // console.log('SemuaIjazah: on the end of then');
+                counter++;
+                if(counter == result.length){
+                    // console.log('yeay done');
+                    // console.log(temp);
+                    this.setState({data: {
+                        values: temp,
+                        source: 'SemuaIjazah',
+                    }, done: true})
+                }
             })
-        // console.log('SemuaIjazah: on the end of componentDidMount');
-        
-        // console.log(this.state)
-        this.forceUpdate();
-        // console.log(this.state)
+        })
+
+    //     await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100, sort:'timestamp:desc' })
+    //         .then(response => {
+    //             this.setState({ data: response });
+
+    //             var datas = response.data;
+    //             var temp = []
+
+    //             console.log(datas)
+
+    //             temp = datas.map(val => {
+
+    //                 fetch('/get-cert-status', {
+    //                     method: 'post',
+    //                     body: JSON.stringify({
+    //                         id: val.asset.id
+    //                     })
+    //                 }).then(response => {
+    //                     console.log(response);
+                        
+    //                 })
+
+    //                 var t = {
+    //                     nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
+    //                     nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
+    //                     prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
+    //                     fakultas: val.asset.fakultas !== undefined ? this.getFakultasName(val.asset.fakultas) : 'Nan',
+    //                     pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
+    //                     id: val.id !== undefined ? val.id : 'Nan',
+    //                     niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
+    //                     status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
+    //                     photos: ''
+    //                 }
+
+    //                 return t;
+    //             })
+
+    //             this.setState({data: {
+    //                 values: temp,
+    //                 source: 'SemuaIjazah',
+    //             }, done: true})
+    //         })
+    //     // this.forceUpdate();
     }
 
     handleClick(event) {
         alert(event.target.value);
+
+        var values = {
+            id: event.target.value
+        }
+
+        fetch('/cert-action', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(values)
+        }). then(response => {
+            console.log(response)
+        })
+
+        window.location.reload();
     }
 
     setColumns(){
@@ -80,6 +167,18 @@ class HelloTransactions extends Component {
                 sortable: true,
                 selector: 'nim',
                 cell: row => <label style={{fontSize: '20px'}}>{row.nim}</label>
+            },
+            {
+                name: <label style={{fontSize: '20px'}}>Program Studi</label>,
+                sortable: true,
+                selector: 'prodi',
+                cell: row => <label style={{fontSize: '20px'}}>{row.prodi}</label>
+            },
+            {
+                name: <label style={{fontSize: '20px'}}>Fakultas</label>,
+                sortable: true,
+                selector: 'fakultas',
+                cell: row => <label style={{fontSize: '20px'}}>{row.fakultas}</label>
             },
             {
                 name: <label style={{fontSize: '20px'}}>Nomor Ijazah UMN</label>,
@@ -103,7 +202,13 @@ class HelloTransactions extends Component {
                 name: <label style={{fontSize: '20px'}}>Action</label>,
                 sortable: true,
                 selector: 'id',
-                cell: row => <div><button id={row.id} value={row.id} onClick={this.handleClick}>Alert Me</button></div>
+                cell: row => {
+                    if (row.status === 'Active'){
+                        return (<div><button id={row.id} value={row.id} onClick={this.handleClick}>Disable</button></div>);
+                    } else {
+                        return (<div><button id={row.id} value={row.id} onClick={this.handleClick}>Enable</button></div>);
+                    }
+                }
             },
         ]
         
@@ -111,27 +216,18 @@ class HelloTransactions extends Component {
     }
 
     render() {
-        // console.log('SemuaIjazah: on render');;
+        console.log(this.state);
         
-        // console.log('SemuaIjazah: ', this.state.done);
-        // console.log('SemuaIjazah: ', this.state.values);
 
         if(!this.state.done) {
             return (
                 <div className="content form-style-2">
-                    <div className="form-style-2-heading">Semua Ijazah</div>
-                    {/* <ul><pre>{JSON.stringify(this.state.data, null, 2)}</pre></ul> */}
-                    {/* <h2>Cari Ijazah</h2> */}
-                    
-                    {/* <ResponseSearch submitted={this.state.data}/> */}
-                    
+                    <div className="form-style-2-heading">Semua Ijazah</div>                    
                 </div>
-                // <div>
-                //     <h2>All Hello Transactions</h2>
-                //     <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
-                // </div>
             );
         } else {
+            console.log(this.state);
+
             return(
                 <div className="content form-style-2">
                     <div className="form-style-2-heading">Semua Ijazah</div>
@@ -149,11 +245,3 @@ class HelloTransactions extends Component {
     }
 }
 export default HelloTransactions;
-
-// return(
-//     <DataTable
-//         columns={this.setColumns()}
-//         data={datas.values}
-//         noHeader
-//     />
-// )

@@ -68,30 +68,15 @@ class Transfer extends Component {
     ]
 
     handleChange = (event) => {
-        // console.log(event)
-
         let nam = event.target.name;
         let val = event.target.value;
         this.setState({[nam]: val});
-
-	    // console.log(this.state);
-        // let helloText = event.target.hello;
-        // let pass = event.target.passphrase;
-
-        // this.setState({
-        //     hello: helloText,
-        //     passphrase: pass
-        // })
     };
 
     handleSelectChange = (event, meta) =>{
-        // console.log(event, meta);
-
         let nam = meta.name;
         let val = event.value;
         this.setState({[nam]: val});
-
-	    // console.log(this.state);
     }
 
     getFiles(files){
@@ -128,19 +113,13 @@ class Transfer extends Component {
             timestamp: utils.getTimeFromBlockchainEpoch(new Date()),
         });
 
-        // console.log(inputIjazah)
-
         inputIjazah.sign(this.state.passphrase);
         api.transactions.broadcast(inputIjazah.toJSON()).then(response => {
             this.setState({response:response});
             this.setState({transaction:inputIjazah});
             this.setState({isSent: true})
 
-            // console.log(this.state.ttl);
-
             var ttl = this.state.ttl.replace('-', '').replace('-', '');
-
-            // console.log(ttl);
 
             var values = {
                 name: this.state.nama,
@@ -157,7 +136,6 @@ class Transfer extends Component {
                 console.log(response)
             })
         }).catch(err => {
-            // console.log(JSON.stringify(err, null, 2));
         });
     }
 
@@ -172,9 +150,6 @@ class Transfer extends Component {
                 return (
                     <div className="response">
                         <p>Sertifikat berhasil dimasukkan! Mahasiswa dengan nama {thisState.nama} dapat mengakeses ijazah eletroniknya dengan memasukkan {thisState.transaction.id} pada halaman Cari Ijazah</p>
-                        
-                        {/* <p>Response: {JSON.stringify(thisState.response, null, 2)}</p>
-                        <p>Transaction: {JSON.stringify(thisState.transaction, null, 2)}</p> */}
                     </div>  
                 )
             } 
@@ -184,7 +159,6 @@ class Transfer extends Component {
         return (
             <div className="content form-style-2">
                 <div className="form-style-2-heading">Input Ijazah</div>
-                {/* <p>Masukkan Data Mahasiswa</p> */}
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         <span>Nama Mahasiswa: <span className="required">*</span></span>
@@ -222,13 +196,6 @@ class Transfer extends Component {
                     </label> <br/>
                     <label>
                         <span>Program Studi: <span className="required">*</span></span>
-                        {/* <Select
-                            options={this.opsiProdi}
-                            defaultValue={{label: 'Informatika', value: 'Informatika'}}
-                            onChange={this.handleSelectChange}
-                            name="prodi" id="prodi"
-                        /> */}
-                        {/* <input type="text" id="prodi" name="prodi" className="input-field" onChange={this.handleChange} /> */}
                         <select className="select-field" name="prodi" id="prodi" onChange={this.handleChange}>
                             <option value="-">-- Pilih Program Studi --</option>
                             <option value="Informatika">Informatika</option>
@@ -281,7 +248,6 @@ class Transfer extends Component {
                     <label>
                         <span>Photo: <span className="required">*</span></span>
                         <FileBase64 multiple={ true } onDone={ this.getFiles.bind(this) } />
-                        {/* <input type="text" id="email" name="email" className="input-field" onChange={this.handleChange} /> */}
                     </label> <br/>
                     <label>
                         <span>Tempat dan Tanggal Diberikan: <span className="required">*</span></span>

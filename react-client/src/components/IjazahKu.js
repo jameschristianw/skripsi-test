@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
 import { api } from '../api.js';
 import Cookies from "universal-cookie";
+import { PDFViewer } from '@react-pdf/renderer';
+import IjazahPage from './IjazahPage';
+import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import Logo from '../images/logo-100.png';
+
+const styles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      backgroundColor: '#FFFFF6'
+    },
+    sectionLeftRight: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1
+    },
+  });
+  
 
 class IjazahKu extends Component{
     constructor(props){
-        // console.log("IjazahKu : constructor");
-        
         super(props)
         this.state = {
             idIjazah: this.props.idIjazah,
@@ -14,29 +35,20 @@ class IjazahKu extends Component{
     }
 
     async componentWillMount() {
-        // console.log("IjazahKu : componentWillMount");
-        
-        
         const cookies = new Cookies();
         
         console.log(this.state);
         api.transactions.get({ id: cookies.get('ijazahId') })
             .then(res => {
-                // console.log(res.data[0].asset);
                 this.setState({data: res.data[0].asset})
             })
     }
 
     componentWillUnmount() {
-        // console.log("IjazahKu : componentDidMount");
-
         this.setState({idIjazah: this.state.idIjazah});
     }
 
     async componentDidMount() {
-        // console.log("IjazahKu : componentDidMount");
-        
-        // api.transactions.get({ id: this.state.idIjazah })
         console.log(this.state)
     }
 
@@ -90,11 +102,11 @@ class IjazahKu extends Component{
         return gelarName;
     }
 
+    btnDownloadIjazah = () => {
+        ReactPDF.render(<IjazahPage />, `${__dirname}/example.pdf`);
+    }
+
     render() {
-        // console.log("IjazahKu : render");
-
-        // console.log(this.state.data)
-
         if (this.state.data !== ''){
             var data = this.state.data;
             var tempTtl = data.ttl.split("-");
@@ -111,10 +123,12 @@ class IjazahKu extends Component{
             var gelar = this.getGelarName(data.gelar);
             var fakultas = this.getFakultasName(data.fakultas);
 
+            var filename = data.nim + '.pdf';
+
             return(
                 <div className="content form-style-2">
                     <div className="form-style-2-heading">Ijazahku</div>
-    
+
                     <table cellPadding="10">
                         <tbody>
                             <tr>
@@ -163,7 +177,11 @@ class IjazahKu extends Component{
                                 <td>: {data.tempattd}, {ttd}</td>
                             </tr>
                         </tbody>
-                    </table>                    
+                    </table>          
+
+                    <PDFDownloadLink document={<IjazahPage data={this.state.data}/>} fileName={filename}> 
+                        <button>Unduh sebagai PDF</button> 
+                    </PDFDownloadLink>          
                 </div>
             )
         } else {

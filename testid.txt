@@ -21,3 +21,28 @@ cari penjelasan DPoS, knp dia nge produce block terus? -> di mana delegated nya?
 
 14026/UMN/S1/IF/2020
 2500/SK/BAN-PT/Akred/IX/2018 - 1 Juni 2018
+
+cari library set text box di gambar
+
+coba tambah sort by & group by di semua ijazah
+tanggal yudisium, fakultas, prodi
+
+pak adhi: adhi.kusnadi@umn.ac.id
+bu eunike: eunike.endariahna@umn.ac.id
+
+setup
+docker : https://docs.docker.com/engine/install/ubuntu/
+         https://docs.docker.com/engine/install/linux-postinstall/
+
+docker run --name lisk_db_test -p 5433:5432 \
+ -e POSTGRES_USER=lisk -e POSTGRES_PASSWORD=password -e POSTGRES_DB=lisk_dev -d postgres:10
+
+
+docker run --name lisk_db_main -p 5434:5432 \
+ -e POSTGRES_USER=lisk -e POSTGRES_PASSWORD=password -e POSTGRES_DB=lisk_dev -d postgres:10
+
+sudo apt install -y libtool automake autoconf curl python-minimal build-essential
+
+
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs

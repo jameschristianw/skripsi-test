@@ -9,6 +9,9 @@ var usersRouter = require('./routes/users');
 var userLogin = require('./routes/login');
 var checkEmail = require('./routes/checkEmail');
 var createAccount = require('./routes/createAccount')
+var certAction = require('./routes/certificateAction');
+var getCertStatus = require('./routes/getCertStatus');
+var getCert = require('./routes/getCert');
 
 var app = express();
 
@@ -42,6 +45,9 @@ app.use('/users', usersRouter);
 app.use('/login', userLogin);
 app.use('/validate-email', checkEmail);
 app.use('/create-account', createAccount);
+app.use('/cert-action', certAction);
+app.use('/get-cert-status', getCertStatus);
+app.use('/get-cert', getCert);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

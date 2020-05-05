@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-// import { api } from '../api.js';
 import Cookies from "universal-cookie";
-// import { useHistory } from "react-router-dom";
 var md5 = require('md5');
 
 class Login extends Component {
     constructor(props){
-        // console.log('Constructor')
         super(props)
         this.state = {
             email: '',
@@ -22,36 +19,26 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        // console.log('Component Did Mount');
     }
 
     componentWillUpdate() {
-        // console.log('Component Will Update');
     }
 
     componentDidUpdate() {
-        // console.log('Component Did Update');
-        // console.log(this.state)
     }
 
     componentWillMount() {
-        // console.log('Component Will Mount');
-
         var temp = new Cookies();
         var cookie = temp.get('SID');
         var res = "";
 
-        // console.log(cookie);
         if (cookie !== undefined){
             res = atob(cookie);
             res = res.slice(0, res.indexOf('#'));
-            // console.log(res);
 
             var mes = {
                 email: res
             }
-
-            // console.log(JSON.stringify(mes));
 
             fetch('/validate-email', {
                 method: 'post',
@@ -60,14 +47,10 @@ class Login extends Component {
             })
             .then(res => res.json())
             .then(result => {
-                // console.log(result)
                 if (result.length !== 0){
                     this.setState({loggedIn: true, name: result[0].fullname, role: result[0].role, email: result[0].email});
                 }
-                // console.log(this.state);
             }).finally(() => {
-                // this.shouldComponentUpdate(1);
-                
                 this.forceUpdate();
             })
         }
@@ -87,8 +70,6 @@ class Login extends Component {
     
         this.setState({[name]: value});
   
-        // console.log(this.state);
-
         this.shouldComponentUpdate(0);
     }
 
@@ -101,8 +82,6 @@ class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-
-        // const history = useHistory();
 
         let input = {
             email: this.state.email,
@@ -118,17 +97,10 @@ class Login extends Component {
         .then(res => res.json())
         .then(result => {
             if (result.length === 0) {
-                // console.log('kosong')
                 this.setState({exist: false});
                 this.setState({error: true});
             } else {
-                // console.log('yeay bisa masuk')
-                // console.log(result);
                 var today = new Date();
-
-                //Crate cookie
-                // var startDate = "";
-                // startDate = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear() + "-" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
 
                 var endDay = today.getDate();
                 var endMonth = today.getMonth();
@@ -193,28 +165,19 @@ class Login extends Component {
 
                 var endDate = endDay + "/" + endMonth + "/" + endYear + "-" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
 
-                // console.log("startDate: " + startDate);
-                // console.log("endDate: " + endDate);
-                // console.log(result[0].email, result[0].id);
-
                 var cookie = result[0].email + "#" + result[0].role + "&" + endDate;
 
                 const cookies = new Cookies();
                 const encodedCookie = new Buffer(cookie).toString('base64');
                 cookies.set('SID', encodedCookie, {path: '/'});
                 cookies.set('ijazahId', result[0].id_ijazah)
-                // console.log(cookies.get('SID'));
                 this.setState({name: result[0].name})
             }
         })
         .finally( (res) => {
-            // console.log(res)
             this.setState({exist: true, loggedIn: true,})
             window.location.reload();
         })
-        // .then( () => {
-        //     history.push("/input-ijazah");
-        // })
     }
 
     logout() {
@@ -233,8 +196,6 @@ class Login extends Component {
 
     render(){
         var state = this.state;
-        // console.log(state);
-        
         var ErrorLogIn = () => {
             if (state.error) {
                 return (
@@ -244,8 +205,6 @@ class Login extends Component {
         }
 
         var Layout = () => {
-            // console.log(state)
-
             if (!state.loggedIn) {
                 return(
                     <div>
@@ -272,7 +231,6 @@ class Login extends Component {
                     <div>
                         <div className="form-style-2-heading">Hai {state.name}!</div>
                         <p>Saat ini anda sedang masuk di Portal Ijazah UMN. Tekan tombol dibawah untuk keluar.</p>
-                        {/* <h2>Cari Ijazah</h2> */}
                         <button onClick={this.logout}>Logout</button>
                     
                     </div>
