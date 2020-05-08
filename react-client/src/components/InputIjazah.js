@@ -125,7 +125,8 @@ class Transfer extends Component {
                 name: this.state.nama,
                 email: this.state.email,
                 password: md5(ttl),
-                ijazah: this.state.transaction.id
+                ijazah: this.state.transaction.id,
+                status: 1
             }
 
             fetch('/create-account', {
