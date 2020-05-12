@@ -35,7 +35,7 @@ docker : https://docs.docker.com/engine/install/ubuntu/
          https://docs.docker.com/engine/install/linux-postinstall/
 
 docker run --name lisk_db_test -p 5433:5432 \
- -e POSTGRES_USER=lisk -e POSTGRES_PASSWORD=password -e POSTGRES_DB=lisk_dev -d postgres:10
+ -e POSTGRES_USER=lisk -e POSTGRES_PASSWORD=password -e POSTGRES_DB=lisk_dev_test -d postgres:10
 
 
 docker run --name lisk_db_main -p 5434:5432 \
@@ -46,3 +46,18 @@ sudo apt install -y libtool automake autoconf curl python-minimal build-essentia
 
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt-get install -y nodejs
+
+
+npm install lisk-sdk 
+npm install @liskhq/lisk-validator @liskhq/lisk-cryptography @liskhq/lisk-transactions @liskhq/lisk-constants 
+
+
+node index.js | npx bunyan -o short
+
+npm install express-generator -g
+express backend 
+cd backend
+npm install
+
+
+ijazah ini di keluarkan oleh universitas multimedia nusantara atas kelulusan seorang mahasiswa yang telah mengampu studi di kampus ini

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import Logo from '../images/logo-umn-blue.png';
 import '../App.css';
+import Stempel from '../images/stempel.png';
+import Ttd1 from '../images/ttd1.png'
+import Ttd2 from '../images/ttd2.png'
 // import AlegreyaSans from '../AlegreyaSans-ExtraBold.ttf'
 
 // Font.register({
@@ -97,8 +99,21 @@ const styles = StyleSheet.create({
       width:290,
       marginRight: 80
   },
+  column_3_1: {
+      width:100,
+      marginRight: 20,
+      marginTop: 40
+  },
+  column_3_2: {
+    width: 170,
+    height: 80,
+    marginRight: 80
+  },
+  ttd:{
+    width: 120
+  },
   number:{
-    marginTop: 330,
+    marginTop: 300,
     fontSize: 10
   }
 });
@@ -206,7 +221,7 @@ export default class IjazahPage extends Component {
 
     render(){
 
-        if(this.props.data != undefined) {
+        if(this.props.data !== undefined) {
             console.log(this.props.data);
 
             var data = this.props.data;
@@ -235,6 +250,9 @@ export default class IjazahPage extends Component {
             var jenjang1 = this.getJenjangName(data.jenjang, 1);
             var fakultas1 = this.getFakultasName(data.fakultas, 1);
             var prodi1 = this.getProdiName(data.prodi);
+
+            // var stempel = 
+
 
             return(
                 <Document>
@@ -385,6 +403,26 @@ export default class IjazahPage extends Component {
                                                     <Text style={styles.textSmall}>: </Text>
                                                     <Text style={styles.textSmall}>{ttd1}</Text>
                                                 </View>
+                                            </View>
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.subContent}>
+                                        <View style={styles.horizonal}>
+                                            <Image cache={false} src={Stempel} style={styles.column_3_1}/>   
+
+                                            <View style={styles.column_3_2}>
+                                                <Text style={styles.labelLong}>Dekan</Text>
+                                                <Text style={styles.labelLongEng}>Dean</Text>
+                                                <Image cache={false} src={Ttd1} style={styles.ttd}/> 
+                                                <Text style={styles.labelLong}>Nama Dekan UMN</Text>
+                                            </View>
+
+                                            <View style={styles.column_3_2}>
+                                                <Text style={styles.labelMed}>Rektor</Text>
+                                                <Text style={styles.labelMedEng}>Rector</Text>
+                                                <Image cache={false} src={Ttd2} style={styles.ttd}/> 
+                                                <Text style={styles.labelLong}>Nama Rektor UMN</Text>
                                             </View>
                                         </View>
                                     </View>

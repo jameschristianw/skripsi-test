@@ -1,28 +1,25 @@
 import React, { Component } from 'react';
 import { api } from '../api.js';
 import Cookies from "universal-cookie";
-import { PDFViewer } from '@react-pdf/renderer';
 import IjazahPage from './IjazahPage';
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
-import Logo from '../images/logo-100.png';
 
-const styles = StyleSheet.create({
-    page: {
-      flexDirection: 'row',
-      backgroundColor: '#FFFFF6'
-    },
-    sectionLeftRight: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1
-    },
-    section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1
-    },
-  });
+// const styles = StyleSheet.create({
+//     page: {
+//       flexDirection: 'row',
+//       backgroundColor: '#FFFFF6'
+//     },
+//     sectionLeftRight: {
+//       margin: 10,
+//       padding: 10,
+//       flexGrow: 1
+//     },
+//     section: {
+//       margin: 10,
+//       padding: 10,
+//       flexGrow: 1
+//     },
+//   });
   
 
 class IjazahKu extends Component{
@@ -133,7 +130,7 @@ class IjazahKu extends Component{
                         <tbody>
                             <tr>
                                 <td rowSpan="11">
-                                    <img src={data.photo}/>
+                                    <img src={data.photo} alt=""/>
                                 </td>
                             </tr>
                             <tr>

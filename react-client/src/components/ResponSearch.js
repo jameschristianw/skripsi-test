@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import DataTable from 'react-data-table-component'
+import IjazahPage from './IjazahPage';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 class Response extends Component {
     constructor(props){
@@ -13,49 +14,6 @@ class Response extends Component {
 
     handleClick = (event) => {
         alert(event.target.value)
-    }
-
-    setColumns(){
-        const columns = [
-            {
-                name: <label style={{fontSize: '20px'}}>Name</label>,
-                sortable: true,
-                selector: 'nama',
-                cell: row => <label style={{fontSize: '20px'}}>{row.nama}</label>
-            },
-            {
-                name: <label style={{fontSize: '20px'}}>NIM</label>,
-                sortable: true,
-                selector: 'nim',
-                cell: row => <label style={{fontSize: '20px'}}>{row.nim}</label>
-            },
-            {
-                name: <label style={{fontSize: '20px'}}>Nomor Ijazah UMN</label>,
-                sortable: true,
-                selector: 'niu',
-                cell: row => <label style={{fontSize: '20px'}}>{row.niu}</label>
-            },
-            {
-                name: <label style={{fontSize: '20px'}}>Nomor Ijazah Nasional</label>,
-                sortable: true,
-                selector: 'pin',
-                cell: row => <label style={{fontSize: '20px'}}>{row.pin}</label>
-            },
-            {
-                name: <label style={{fontSize: '20px'}}>Status</label>,
-                sortable: true,
-                selector: 'status',
-                cell: row => <label style={{fontSize: '20px'}}>{row.status}</label>
-            },
-            {
-                name: <label style={{fontSize: '20px'}}>Action</label>,
-                sortable: true,
-                selector: 'id',
-                cell: row => <div><button id={row.id} value={row.id} onClick={this.handleClick}>Alert Me</button></div>
-            },
-        ]
-        
-        return columns;
     }
 
     getMonthName = (monthNumber) => {
@@ -113,7 +71,10 @@ class Response extends Component {
         var data = this.props.submitted;
 
         if (data.length !== 0 && data !== false){
-            var data = this.props.submitted;
+            console.log("here");
+            
+
+            // var data = this.props.submitted;
             var tempTtl = data.ttl.split("-");
             var tempTtd = data.ttd.split("-");
             var tempTin = data.tin.split("-")
@@ -128,13 +89,15 @@ class Response extends Component {
             var gelar = this.getGelarName(data.gelar);
             var fakultas = this.getFakultasName(data.fakultas);
 
+            var filename = data.nim + '.pdf';
+
             return(
                 <div >
                     <table cellPadding="10">
                         <tbody>
                             <tr>
                                 <td rowSpan="11">
-                                    <img src={data.photo}/>
+                                    <img src={data.photo} alt=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -179,6 +142,10 @@ class Response extends Component {
                             </tr>
                         </tbody>
                     </table>
+
+                    <PDFDownloadLink document={<IjazahPage data={data}/>} fileName={filename}> 
+                        <button>Unduh sebagai PDF</button> 
+                    </PDFDownloadLink>  
                 </div>
             )
         } else if (data === false){

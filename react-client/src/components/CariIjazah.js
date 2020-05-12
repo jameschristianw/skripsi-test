@@ -19,7 +19,7 @@ class HelloTransactions extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({sumbitted: true})
+        // this.setState({sumbitted: true})
 
         if (this.state.idIjazah !== ""){
             api.transactions.get({ id: this.state.idIjazah })
@@ -30,30 +30,33 @@ class HelloTransactions extends Component {
                         this.setState({values: response.data[0].asset}); 
                     }
 
-                    var datas = response.data;
-                    var temp = ''
+                    // var datas = response.data;
+                    // var temp = ''
 
-                    if(response.meta.count > 0){
-                        temp = datas.map(val => {
-                            var t = {
-                                nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
-                                nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
-                                pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
-                                id: val.id !== undefined ? val.id : 'Nan',
-                                niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
-                                status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
-                                photo: val.asset.photo !== undefined ? val.asset.photo : 'default',
-                                source: 'CariIjazah'
-                            }
-        
-                            return t;
-                        })   
+                    // // if(response.meta.count > 0){
+                    // //     console.log("here 2");
                         
-                        this.setState({data: {
-                            values: temp,
-                            source: 'CariIjazah',
-                        }, done: true, available: true})
-                    }
+
+                    // //     temp = datas.map(val => {
+                    // //         var t = {
+                    // //             nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
+                    // //             nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
+                    // //             pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
+                    // //             id: val.id !== undefined ? val.id : 'Nan',
+                    // //             niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
+                    // //             status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
+                    // //             photo: val.asset.photo !== undefined ? val.asset.photo : 'default',
+                    // //             source: 'CariIjazah'
+                    // //         }
+        
+                    // //         return t;
+                    // //     })   
+                        
+                    // //     // this.setState({data: {
+                    // //     //     values: temp,
+                    // //     //     source: 'CariIjazah',
+                    // //     // }, done: true, available: true, submitted: true})
+                    // // }
 
                 })
         } else {
@@ -78,31 +81,29 @@ class HelloTransactions extends Component {
     }
 
     render() {
-        const thisState = this.state;
+        // if (this.state.idIjazah === undefined){
+        //     return (
+        //         <div className="response">Input tidak boleh kosong!</div>
+        //     )
+        // } else if (this.state.submitted) { // Kalau data di-submit
+        //     if (this.state.available){ // Kalau data ditemukan                 
+        //         return (
+        //             <div></div>
+        //         )
+        //     } else { // Kalau data tidak ditemukan
+        //         if (!this.state.error) {
+        //             return (
+        //                 <div className="response">Data ijazah tidak ditemukan!</div>
+        //             )
+        //         } else {
+        //             return (
+        //                 <div className="response">Data ijazah tidak ditemukan!</div>
+        //             )
+        //         }
+        //     }
+        // } else {
 
-        if (this.state.idIjazah === undefined){
-            return (
-                <div className="response">Input tidak boleh kosong!</div>
-            )
-        } else if (this.state.submitted) { //klo di submit
-            if (this.state.available){ //klo ketemu                 
-                return (
-                    <div></div>
-                )
-            } else { //klo ngga ketemu
-                if (!this.state.error) {
-                    return (
-                        <div className="response">Data ijazah tidak ditemukan!</div>
-                    )
-                } else {
-                    return (
-                        <div className="response">Data ijazah tidak ditemukan!</div>
-                    )
-                }
-            }
-        } else {
-
-        }
+        // }
 
         return (
             <div className="content form-style-2">

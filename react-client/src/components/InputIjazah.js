@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {
     TransaksiIjazah,
-} from 'lisk-hello-transactions';
+} from 'lisk-ijazah';
 import { api } from '../api.js';
 import * as cryptography from '@liskhq/lisk-cryptography';
 import {utils} from "@liskhq/lisk-transactions";
-import Select from 'react-select';
 import FileBase64 from 'react-file-base64';
 import md5 from 'md5';
 
@@ -133,7 +132,7 @@ class Transfer extends Component {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(values)
-            }). then(response => {
+            }).then(response => {
                 console.log(response)
             })
         }).catch(err => {
@@ -142,7 +141,7 @@ class Transfer extends Component {
 
 
     render() {
-        const isSentState = this.state.isSent;
+        // const isSentState = this.state.isSent;
         const thisState = this.state;
 
         function Response(props){
@@ -247,7 +246,7 @@ class Transfer extends Component {
                         <input type="text" id="email" name="email" className="input-field" onChange={this.handleChange} />
                     </label> <br/>
                     <label>
-                        <span>Photo: <span className="required">*</span></span>
+                        <span>Foto: <span className="required">*</span></span>
                         <FileBase64 multiple={ true } onDone={ this.getFiles.bind(this) } />
                     </label> <br/>
                     <label>

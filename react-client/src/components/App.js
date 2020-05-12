@@ -13,7 +13,6 @@ import Login from './Login';
 import '../App.css';
 import '../index.css';
 import Logo from '../images/logo-100.png';
-import { useHistory } from 'react-router-dom'
 import { ErrorHandler } from 'universal-react-logger';
 import Cookies from "universal-cookie";
 
@@ -114,7 +113,7 @@ class App extends Component{
             <Router>
                 <div>
                     <div className="title">
-                        <h2><img src={Logo} className="img-logo"/><Link to="/">Portal Ijazah Elektronik UMN</Link></h2>
+                        <h2><img src={Logo} className="img-logo" alt=""/><Link to="/">Portal Ijazah Elektronik UMN</Link></h2>
                         <LoggedIn />
                     </div>
                     

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { api } from '../api.js';
-import {
-    TransaksiIjazah,
-} from 'lisk-hello-transactions';
 import DataTable from 'react-data-table-component'
-import { Page } from '@react-pdf/renderer';
 
 class HelloTransactions extends Component {
 
@@ -70,7 +66,7 @@ class HelloTransactions extends Component {
                         if(fakultas === 'all' && prodi === 'all'){
                             // console.log('its fakultas');
                             
-                            var tmp = {
+                            let tmp = {
                                 nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
                                 nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',        
                                 prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
@@ -85,7 +81,7 @@ class HelloTransactions extends Component {
                             temp.push(tmp);
                         } else if (val.asset.fakultas === fakultas && prodi === 'all') {
                             // console.log('no fakultas');
-                            var tmp = {
+                            let tmp = {
                                 nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
                                 nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',        
                                 prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
@@ -100,7 +96,7 @@ class HelloTransactions extends Component {
                             temp.push(tmp);
                         } else if (fakultas === 'all' && val.asset.prodi === prodi) {
                             // console.log('no fakultas');
-                            var tmp = {
+                            let tmp = {
                                 nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
                                 nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',        
                                 prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
@@ -115,7 +111,7 @@ class HelloTransactions extends Component {
                             temp.push(tmp);
                         } else if (val.asset.fakultas === fakultas && val.asset.prodi === prodi) {
                             // console.log('no fakultas');
-                            var tmp = {
+                            let tmp = {
                                 nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
                                 nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',        
                                 prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
@@ -129,14 +125,14 @@ class HelloTransactions extends Component {
                             
                             temp.push(tmp);
                         } 
-                        console.log(tmp);
+                        // console.log(tmp);
                     }
                 }).then( () => {
-                    console.log(this.state.data)
+                    // console.log(this.state.data)
                 })
 
                 counter++;
-                if(counter == result.length){
+                if(counter === result.length){
                     // console.log('yeay done');
                     // console.log(temp);
                     this.setState({data: {
@@ -152,109 +148,6 @@ class HelloTransactions extends Component {
         this.setState({fakultas: 'all', prodi: 'all'})
 
         this.fetchData('all', 'all');
-        // fetch('/get-cert').then(res => {
-        //     // console.log(res.json());
-        //     return res.json();
-        // }).then(async (result) => {
-        //     console.log(result);
-
-        //     var temp = [];
-
-        //     console.log(result.length);
-        //     var counter = 0;
-
-        //     await result.forEach(async (element) => {
-        //         // console.log(element)
-                
-        //         await api.transactions.get({ id: element.id_ijazah })
-        //         .then( response => { 
-        //             // if(response.meta.count === 0){
-        //             //     this.setState({values: false})
-        //             // } else {
-        //             //     this.setState({values: response.data[0].asset}); 
-        //             // }
-
-        //             console.log(response);
-
-        //             var val = response.data[0];
-                    
-        //             console.log(temp)
-
-        //             if(response.meta.count > 0){
-        //                 console.log(val)
-
-        //                 var tmp = {
-        //                     nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
-        //                     nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',        
-        //                     prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
-        //                     fakultas: val.asset.fakultas !== undefined ? val.asset.fakultas : 'Nan',
-        //                     pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
-        //                     id: val.id !== undefined ? val.id : 'Nan',
-        //                     niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
-        //                     status: element.status === 1 ? 'Active' : 'Not Active',
-        //                     photo: val.asset.photo !== undefined ? val.asset.photo : 'default',
-        //                 }
-
-        //                 temp.push(tmp);
-        //             }
-        //         }).then( () => {
-        //             console.log(this.state.data)
-        //         })
-
-        //         counter++;
-        //         if(counter == result.length){
-        //             // console.log('yeay done');
-        //             // console.log(temp);
-        //             this.setState({data: {
-        //                 values: temp,
-        //                 source: 'SemuaIjazah',
-        //             }, done: true})
-        //         }
-        //     })
-        // })
-
-    //     await api.transactions.get({ type: TransaksiIjazah.TYPE, limit: 100, sort:'timestamp:desc' })
-    //         .then(response => {
-    //             this.setState({ data: response });
-
-    //             var datas = response.data;
-    //             var temp = []
-
-    //             console.log(datas)
-
-    //             temp = datas.map(val => {
-
-    //                 fetch('/get-cert-status', {
-    //                     method: 'post',
-    //                     body: JSON.stringify({
-    //                         id: val.asset.id
-    //                     })
-    //                 }).then(response => {
-    //                     console.log(response);
-                        
-    //                 })
-
-    //                 var t = {
-    //                     nama: val.asset.nama !== undefined ? val.asset.nama : 'Nan',
-    //                     nim: val.asset.nim !== undefined ? val.asset.nim : 'Nan',
-    //                     prodi: val.asset.prodi !== undefined ? val.asset.prodi : 'Nan',
-    //                     fakultas: val.asset.fakultas !== undefined ? this.getFakultasName(val.asset.fakultas) : 'Nan',
-    //                     pin: val.asset.pin !== undefined ? val.asset.pin : 'Nan',
-    //                     id: val.id !== undefined ? val.id : 'Nan',
-    //                     niu: val.asset.niu !== undefined ? val.asset.niu : 'Nan',
-    //                     status: val.asset.status !== undefined ? val.asset.status : 'Not Active',
-    //                     photos: ''
-    //                 }
-
-    //                 return t;
-    //             })
-
-    //             this.setState({data: {
-    //                 values: temp,
-    //                 source: 'SemuaIjazah',
-    //             }, done: true})
-    //         })
-    //     // this.forceUpdate();
     }
 
     handleClick(event) {
@@ -268,7 +161,7 @@ class HelloTransactions extends Component {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(values)
-        }). then(response => {
+        }).then(response => {
             console.log(response)
         })
 
@@ -289,7 +182,7 @@ class HelloTransactions extends Component {
             this.fetchData(fakultas, 'all');
 
             temp = this.state.data.values.filter(res => {
-                if (res.fakultas == fakultas){
+                if (res.fakultas === fakultas){
                     console.log(res);
                     
                     return res;
@@ -321,7 +214,7 @@ class HelloTransactions extends Component {
             this.fetchData(this.state.fakultas, prodi);
 
             temp = this.state.data.values.filter(res => {
-                if (res.prodi == prodi){
+                if (res.prodi === prodi){
                     console.log(res);
                     
                     return res;
@@ -337,13 +230,17 @@ class HelloTransactions extends Component {
         }
     }
 
+    handleClickView = (event) => {
+        alert(event.target.value);
+    }
+
     setColumns(){
         const columns = [
             {
                 name: <label style={{fontSize: '20px'}}>Name</label>,
                 sortable: true,
                 selector: 'nama',
-                width: '380px',
+                width: '330px',
                 cell: row => <label style={{fontSize: '20px'}}>{row.nama}</label>
             },
             {
@@ -379,7 +276,7 @@ class HelloTransactions extends Component {
                 name: <label style={{fontSize: '20px'}}>Nomor Ijazah Nasional</label>,
                 sortable: true,
                 selector: 'pin',
-                width: '350px',
+                width: '320px',
                 cell: row => <label style={{fontSize: '20px'}}>{row.pin}</label>
             },
             {
@@ -387,19 +284,30 @@ class HelloTransactions extends Component {
                 sortable: true,
                 selector: 'status',
                 compact: 'yes',
-                cell: row => <label style={{fontSize: '20px'}}>{row.status}</label>
+                width: '130px',
+                cell: row => <label style={{fontSize: '20px'}}>{row.status === "Active" ? "Aktif" : "Non-Aktif"}</label>
             },
             {
-                name: <label style={{fontSize: '20px'}}>Action</label>,
+                name: <label style={{fontSize: '20px'}}>Aksi</label>,
                 sortable: true,
                 selector: 'id',
                 compact: 'yes',
-                width: 20,
+                width: '150px',
                 cell: row => {
                     if (row.status === 'Active'){
-                        return (<div><button id={row.id} value={row.id} onClick={this.handleClick}>Disable</button></div>);
+                        return (
+                            <div>
+                                <button id={row.id} value={row.id} onClick={this.handleClick} style={{marginRight: 10}}>Non-aktifkan</button>
+                                <button id={row.id} value={row.id} onClick={this.handleClickView}>Lihat</button>
+                            </div>
+                        );
                     } else {
-                        return (<div><button id={row.id} value={row.id} onClick={this.handleClick}>Enable</button></div>);
+                        return (
+                            <div>
+                                <button id={row.id} value={row.id} onClick={this.handleClick} style={{marginRight: 10}}>Aktifkan</button>
+                                <button id={row.id} value={row.id} onClick={this.handleClickView}>Lihat</button>
+                            </div>
+                        );
                     }
                 }
             },
@@ -408,7 +316,9 @@ class HelloTransactions extends Component {
         return columns;
     }
 
-    
+    onRowClicked = (id) => {
+
+    }
 
     render() {
         console.log(this.state);
@@ -440,7 +350,7 @@ class HelloTransactions extends Component {
                     {/* </div> */}
 
                     {/* <div> */}
-                        <span style={{width: '80px', marginRight: '20px'}}>Prodi</span>
+                        <span style={{width: '80px', marginRight: '20px'}}>Program studi</span>
                     
                         <select className="select-field-all" name="prodi" id="prodi" onChange={this.handleChangeProdi}>
                             <option value="all">Semua</option>
